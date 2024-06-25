@@ -1,0 +1,209 @@
+<app-header></app-header>
+
+
+
+
+
+
+<div [ngClass]="{'container-fluid mt-5 mx-auto': menjanje, 'container mt-5': !menjanje}">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary">Klijenti</h2>
+        <button type="button" class="btn btn-success btn-lg" data-toggle="collapse" data-target="#collapseForm"
+        (click)="dodajProvera = !dodajProvera;">Dodaj novog klijenta    </button>
+    </div>
+    <table class="table table-striped table-hover" *ngIf="!dodajProvera && klijenti.length>0">
+        <thead>
+            <tr>
+   
+                <th class="naziv-kolone" (click)="sortBy('ime')">Ime</th>
+                <th class="naziv-kolone" (click)="sortBy('prezime')">Prezime</th>
+                <th class="naziv-kolone" (click)="sortBy('imeOca')">Ime oca</th>
+                <th class="naziv-kolone" (click)="sortBy('pribivaliste')" >Prebivalište</th>
+                <th class="naziv-kolone" >Telefon</th>
+                <th class="naziv-kolone" >JMBG</th>
+                <th class="naziv-kolone" >BRLK</th>
+                <th class="naziv-kolone" style="width:10%" >DUG</th>
+                <th></th>
+                <th></th>
+                <th ></th>
+                <th ></th>
+         
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let klijent of klijenti; let i = index" [hidden]="(detaljiKlijenta !== null && detaljiKlijenta !== klijent.id
+        
+            && predmeti.length>0) ||(detaljiPlacanja !== null && detaljiPlacanja !== klijent.id
+        
+        && placanja.length>0) "  [ngClass]="{'red-duzan': dug(klijent.id), 'red-nije-duzan': !dug(klijent.id)}">
+
+                <td *ngIf="!promeniProvera[i]">{{klijent.ime}}</td>
+                <td *ngIf="promeniProvera[i]"><input type="text" [(ngModel)]="klijenti[i].ime"></td>
+                <td *ngIf="!promeniProvera[i]">{{klijent.prezime}}</td>
+                <td *ngIf="promeniProvera[i]"><input type="text" [(ngModel)]="klijenti[i].prezime"></td>
+                <td *ngIf="!promeniProvera[i]">{{klijent.imeOca}}</td>
+                <td *ngIf="promeniProvera[i]"><input type="text" [(ngModel)]="klijenti[i].imeOca"></td>
+                <td *ngIf="!promeniProvera[i]">{{klijent.pribivaliste}}</td>
+                <td *ngIf="promeniProvera[i]"><input type="text" [(ngModel)]="klijenti[i].pribivaliste"></td>
+                <td *ngIf="!promeniProvera[i]">{{klijent.telefon}}</td>
+                <td *ngIf="promeniProvera[i]"><input type="text" [(ngModel)]="klijenti[i].telefon"></td>
+                <td *ngIf="!promeniProvera[i]">{{klijent.jmbg}}</td>
+                <td *ngIf="promeniProvera[i]"><input type="text" [(ngModel)]="klijenti[i].jmbg"></td>
+                <td *ngIf="!promeniProvera[i]">{{klijent.brlk}}</td>
+                <td *ngIf="promeniProvera[i]"><input type="text" [(ngModel)]="klijenti[i].brlk"></td>
+                <td >
+                    <div *ngIf="dug(klijent.id) === 0; else notPaid" >
+                    
+                    </div>
+                    <ng-template #notPaid>
+                        {{ dug(klijent.id) }}RSD
+                    </ng-template>
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" (click)="prikaziPredmete(klijent.id)" [disabled]="!predmetiMap.has(klijent.id)" >
+                            {{ detaljiKlijenta === klijent.id && predmeti.length>0  ? 'Sakrij Predmete' : ' Predmeti' }}
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" (click)="prikaziPlacanja(klijent.id)" [disabled]="!placanjaMap.has(klijent.id)" >
+                            {{ detaljiPlacanja === klijent.id && placanja.length>0 ? 'Sakrij Placanja' : 'Placanja' }}
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    
+                    <div *ngIf="!promeniProvera[i]" class="btn-group" role="group">
+                        <button type="button" class="btn btn-warning " (click)="promeniProvere(i)">Promeni</button>
+                    </div>
+                    <div *ngIf="promeniProvera[i]" class="btn-group" role="group">
+                        <button type="button" class="btn btn-success" (click)="promeniKlijenta(i)">Sačuvaj</button>
+                    </div>
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-danger"  [disabled]="predmetiMap.has(klijent.id)" (click)="izbrisiKlijenta(klijent.id)">Izbriši</button>
+                    </div>
+                
+                </td>
+
+            
+             
+                
+                
+                
+              
+            </tr>
+            <tr *ngIf="detaljiKlijenta !== null && predmeti.length>0">
+                <td colspan="11">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th class="naziv-kolone">Posao</th>
+                                <th class="naziv-kolone"> Datum</th>
+                               
+                                <th class="naziv-kolone">Parcela</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let predmet of predmeti">
+                                <td>{{ predmet.posao.naziv }}</td>
+                                <td>{{ predmet.datum }}</td>
+        
+                                <td>{{ predmet.parcela.brKatParcele }} {{ predmet.parcela.katOpstina }}
+                                   ({{ predmet.parcela.opstina }})
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <button type="button" class="btn btn-secondary" (click)="zatvoriPredmet()">Zatvori</button>
+                      
+                      
+                              </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr *ngIf="detaljiPlacanja !== null && placanja.length>0">
+                <td colspan="11">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th class="naziv-kolone">Iznos</th>
+                                <th class="naziv-kolone">Datum</th>
+                                <th class="naziv-kolone">Napomena</th>
+                                <th class="naziv-kolone">Predmet</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let p of placanja">
+                                <td>{{ p.iznos }}</td>
+                                <td>{{ p.datum }}</td>
+                                <td>{{ p.napomena }}</td>
+                                <td>{{ p.predmet.posao.naziv }}</td>
+                                <td>{{ placanjeparcela(p.predmet.parcela) }}</td>
+                            </tr>
+
+                            <tr>
+                                <button type="button" class="btn btn-secondary" (click)="zatvoriPlacanja()">Zatvori</button>
+                      
+                      
+                              </tr>
+                        </tbody>
+                        
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+  
+    <div class="collapse mt-3" id="collapseForm" *ngIf="dodajProvera">
+        <div class="card card-body">
+            <h4 class="naziv-kolone">Dodaj novog klijenta</h4>
+            <form (ngSubmit)="dodajKlijenta()">
+                <div class="form-group">
+                    <label for="ime">Ime:</label>
+                    <input type="text" class="form-control" id="ime" name="ime" [(ngModel)]="ime">
+                </div>
+                <div class="form-group">
+                    <label for="prezime">Prezime:</label>
+                    <input type="text" class="form-control" id="prezime" name="prezime" [(ngModel)]="prezime">
+                </div>
+                <div class="form-group">
+                    <label for="ime_oca">Ime oca:</label>
+                    <input type="text" class="form-control" id="ime_oca" name="ime_oca" [(ngModel)]="imeOca">
+                </div>
+                <div class="form-group">
+                    <label for="prebivaliste">Prebivalište:</label>
+                    <input type="text" class="form-control" id="prebivaliste" name="prebivaliste" [(ngModel)]="pribivaliste">
+                </div>
+                <div class="form-group">
+                    <label for="telefon">Telefon:</label>
+                    <input type="text" class="form-control" id="telefon" name="telefon" [(ngModel)]="telefon">
+                </div>
+                <div class="form-group">
+                    <label for="jmbg">JMBG:</label>
+                    <input type="text" class="form-control" id="jmbg" name="jmbg" [(ngModel)]="jmbg">
+                </div>
+                <div class="form-group">
+                    <label for="brlk">BRLK:</label>
+                    <input type="text" class="form-control" id="brlk" name="brlk" [(ngModel)]="brlk">
+                </div>
+                <div class="button-container d-flex justify-content-between mt-3">
+                    <button type="submit"  class="btn btn-success btn-lg">Dodaj</button>
+
+                    <button class="btn btn-secondary btn-lg" (click)="zatvori()">Zatvori</button>
+                </div>
+            </form>
+            <div class="alert alert-primary" role="alert" *ngIf="poruka!=''">
+                <strong>{{poruka}}</strong>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

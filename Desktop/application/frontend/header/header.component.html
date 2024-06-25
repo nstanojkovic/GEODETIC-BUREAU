@@ -1,0 +1,51 @@
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary"> <!-- Promenjena pozadinska boja na tamnoplavu i boja teksta na svetlu -->
+        <div class="container-fluid">
+        <a class="navbar-brand" href="#" style="font-size: 24px;" (click)="meni()">GB CAGI</a> <!-- Povećana veličina fonta na 24px -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            
+        <div class="collapse navbar-collapse" id="navbarSupportedContent"> 
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="font-size: 18px; margin: auto;"> 
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" (click)="poslovi()" href="">Poslovi</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="klijenti" (click)="klijenti()">Klijenti</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="parcele" (click)="parcele()">Parcele</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="predmeti" (click)="predmeti()">Predmeti</a>
+            </li>
+       
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="katastar" (click)="katastar()">Katastar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" *ngIf="user.admin" aria-current="page" href="blagajna" (click)="blagajna()">Blagajna</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" (click)="radnici()" href="radnici">Radnici</a>
+            </li>
+       
+            <li class="nav-item">
+                <a class="nav-link " href="#" tabindex="-1" (click)="odjavi()">Odjavi se</a>
+            </li>
+            </ul>
+            <div class="d-flex" style="margin-left: 20px;">
+                <input class="form-control me-2" type="search" placeholder="Pretraži" aria-label="Pretraži" style="width: 250px;" [(ngModel)]="searchTerm">
+                <button class="btn btn-outline-light" (click)="pretrazi()">Pretraži</button>
+            </div>
+            
+              
+        
+        </div>
+        </div>
+    </nav>
+
+
+  

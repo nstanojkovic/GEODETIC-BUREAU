@@ -1,0 +1,43 @@
+<div>
+<div class="container">
+    <form>
+        <fieldset class="mb-3 row">
+            <legend class="col-form-legend col-5">Geodetski biro CAGI</legend>
+            <!-- <div class="col-8">
+                you can use radio and checkboxes here
+            </div> -->
+        </fieldset>
+        <div class="mb-3 row">
+            <mat-form-field>
+                <mat-label for="inputName" class="col-4 col-form-label">Korisnicko ime</mat-label>
+                <input type="text" matInput class="form-control" name="username" id="username" [(ngModel)]="username" required>                                
+            </mat-form-field>            
+        </div>
+        <div class="mb-3 row">
+            <mat-form-field>
+                <mat-label for="password" class="col-4 col-form-label">Lozinka</mat-label>
+                <input type="password" matInput class="form-control" name="password" id="password" [(ngModel)]="password" required>
+            </mat-form-field>            
+        </div>
+        <div class="mb-3 row">
+            <div class="offset-sm-5 col-sm-8">
+                <button type="submit"  class="btn btn-success btn-lg" (click)="login()">Prijava</button>
+            </div>
+        </div>
+    </form>
+    <div class="alert alert-primary" role="alert" *ngIf="poruka!=''">
+        <strong>{{poruka}}</strong>
+    </div>
+   
+</div>
+    <a>
+        <div class="offset-sm-2 col-sm-10">
+            <a name="registerUser" id="registerUser" class="btn btn-primary btn-lg" href="/registerUser" role="button">Registracija</a>
+        </div>
+    </a>
+
+</div>
+
+    
+
+

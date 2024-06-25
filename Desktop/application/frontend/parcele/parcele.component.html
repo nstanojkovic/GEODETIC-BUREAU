@@ -1,0 +1,135 @@
+<app-header></app-header>
+
+<div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary">Parcele</h2>
+        <button type="button" class="btn btn-success btn-lg" data-toggle="collapse" data-target="#collapseForm"
+        (click)="dodajProvera = !dodajProvera;">Dodaj novu parcelu</button>
+    </div>
+
+    <table class="table table-striped table-hover mb-5" *ngIf="!dodajProvera">
+        <thead class="thead-dark">
+            <tr>
+                <th class="naziv-kolone"(click)="sortBy('brKatParcele')">Broj Kat. Parcele</th>
+                <th class="naziv-kolone" (click)="sortBy('katOpstina')">Katastarska opština</th>
+                <th class="naziv-kolone" (click)="sortBy('opstina')">Opština</th>
+                <th class="naziv-kolone">List Nepokretnosti</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let parcela of parcele; let i = index" 
+                [hidden]="detaljiParcele !== null && detaljiParcele !== parcela.id && predmeti.length > 0"
+                [ngClass]="{'vise': proveraBoja(parcela.id) }">
+
+
+                <td *ngIf="!promeniProvera[i]">{{parcela.brKatParcele}}</td>
+                <td *ngIf="promeniProvera[i]">
+
+                    <input type="text" [(ngModel)]="parcele[i].brKatParcele" class="form-control mb-2">
+                </td>
+                <td *ngIf="!promeniProvera[i]">{{parcela.katOpstina}}</td>
+                <td *ngIf="promeniProvera[i]">
+                    <input type="text" [(ngModel)]="parcele[i].katOpstina" class="form-control mb-2">
+                </td>
+                <td *ngIf="!promeniProvera[i]">{{parcela.opstina}}</td>
+                <td *ngIf="promeniProvera[i]">
+                    <input type="text" [(ngModel)]="parcele[i].opstina" class="form-control mb-2">
+                </td>
+                <td *ngIf="!promeniProvera[i] && parcele[i].ln">
+                    <button type="button" (click)="downloadPdf(parcela.id)" class="btn btn-link">Prikaži PDF</button>
+                </td>
+                <td *ngIf="promeniProvera[i] || !parcele[i].ln">
+                    <label class="custom-file-upload">
+                        <input type="file" (change)="onFileSelected($event, i)" class="form-control-file">
+                    </label>
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" (click)="prikaziPredmete(parcela.id)" [disabled]="!predmetiMap.has(parcela.id)">
+                            {{ detaljiParcele === parcela.id && predmeti.length > 0 ? 'Sakrij Predmete' : 'Prikaži Predmete' }}
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="!promeniProvera[i]" class="btn-group" role="group">
+                        <button type="button" class="btn btn-warning" (click)="promeniProvere(i)">Promeni</button>
+                    </div>
+                    <div *ngIf="promeniProvera[i] || file != null" class="btn-group" role="group">
+                        <button type="button" class="btn btn-success" (click)="promeniParcelu(i)">Sačuvaj</button>
+                    </div>
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-danger" [disabled]="predmetiMap.has(parcela.id)" (click)="izbrisiParcelu(parcela.id)">Izbriši</button>
+                    </div>
+                </td>
+            </tr>
+
+            <tr *ngIf="detaljiParcele !== null && predmeti.length > 0">
+                <td colspan="11">
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Posao</th>
+                                <th>Datum</th>
+                                <th>Klijent</th>
+                                <th>Parcela</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let predmet of predmeti">
+                                <td>{{ predmet.posao.naziv }}</td>
+                                <td>{{ predmet.datum }}</td>
+                                <td>{{ predmet.klijent.ime }} ({{ predmet.klijent.imeOca }}) {{ predmet.klijent.prezime }}</td>
+                                <td>{{ predmet.parcela.brKatParcele }} {{ predmet.parcela.katOpstina }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="collapse mt-3 mb-5" id="collapseForm" *ngIf="dodajProvera">
+        <div class="card card-body">
+            <h4 class="naziv-kolone">Dodaj novu parcelu</h4>
+            <form>
+                <div class="form-group row">
+                    <label for="brKarParcele" class="col-sm-4 col-form-label">Broj katastarske parcele</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="brKarParcele" name="brKarParcele" [(ngModel)]="parcela.brKatParcele" required onlyNumbersAndSlash>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="kat_opstina" class="col-sm-4 col-form-label">Katastarska opština</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="kat_opstina" name="katOpstina" [(ngModel)]="parcela.katOpstina" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="opstina" class="col-sm-4 col-form-label">Opština</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="opstina" name="opstina" [(ngModel)]="parcela.opstina" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Dodaj list nepokretnosti</label>
+                    <div class="col-sm-8">
+                        <div class="custom-file">
+                            <input type="file" (change)="onFileSelected1($event)" class="custom-file-upload" id="customFile">
+                        </div>
+                    </div>
+                </div>
+                <div class="button-container d-flex justify-content-between mt-3">
+                    <button type="button" class="btn btn-success btn-lg" (click)="dodajParcelu()">Sačuvaj</button>
+                    <button type="button" class="btn btn-secondary btn-lg" (click)="zatvori()">Zatvori</button>
+                </div>
+            </form>
+            <div class="alert alert-primary mt-3" role="alert" *ngIf="poruka != ''">
+                <strong>{{ poruka }}</strong>
+            </div>
+        </div>
+    </div>
+</div>

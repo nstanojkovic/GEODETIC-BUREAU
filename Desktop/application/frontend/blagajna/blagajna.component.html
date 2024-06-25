@@ -1,0 +1,113 @@
+<app-header></app-header>
+<div class="container" style="background-color: #f0f0f0; padding: 20px;">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card" style="background-color: #fff; border: 1px solid #ccc;">
+                <div class="card-body text-center">
+                    <h2 class="card-title text-primary mb-4">Blagajna Pregled</h2>
+                
+                    <div *ngIf="(!showAddExpenseForm && !showExpenses)&&(!showAddIncomeForm && !showIncome)">
+                        <div class="form-group">
+                            <label for="inputMesec" style="color: #333; font-size: 18px;">Mesec</label>
+                            <select class="form-control" [(ngModel)]="mesec" style="color: #333; background-color: #f8f9fa;">
+                                <option *ngFor="let m of meseci; let i = index" [value]="i + 1">{{ m }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputGodina" style="color: #333; font-size: 18px;">Godina</label>
+                            <select class="form-control" [(ngModel)]="godina" style="color: #333; background-color: #f8f9fa;">
+                                <option *ngFor="let g of godine" [value]="g">{{ g }}</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-lg btn-block mt-4" (click)="prihodTrosakOdDatuma()" style="background-color: #007bff;">Izračunaj</button>
+                 
+                        <div class="mt-5">
+                            <div class="form-group">
+                                <label for="ukupanPrihod" style="color: #333;">Ukupan Prihod RSD</label>
+                                <input type="text" class="form-control" id="ukupanPrihod" [(ngModel)]="prihod"  style="color: #333; background-color: #f8f9fa;">
+                            </div>
+                            <div class="form-group">
+                                <label for="ukupniTroskovi" style="color: #333;">Ukupni Troškovi RSD</label>
+                                <input type="text" class="form-control" id="ukupniTroskovi" [(ngModel)]="trosak" style="color: #333; background-color: #f8f9fa;">
+                            </div>
+                            <div class="form-group">
+                                <label for="stanje" style="color: #333;">Stanje RSD</label>
+                                <input type="text" class="form-control" id="stanje" [(ngModel)]="stanje" readonly style="color: #333; background-color: #f8f9fa;">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                        <button type="button" class="btn btn-secondary btn-lg btn-block mt-4" (click)="toggleAddExpenseForm()" style="background-color: #6c757d;">Dodaj Trošak</button>
+                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-info btn-lg btn-block mt-4" (click)="vidiTroskove()" style="background-color: #17a2b8;">Vidi Troškove</button>
+                         </div>
+
+                         <div class="form-group">
+                            <button type="button" class="btn btn-secondary btn-lg btn-block mt-4" (click)="toggleAddIncomeForm()" style="background-color: #6c757d;">Dodaj Prihod</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-info btn-lg btn-block mt-4" (click)="vidiPrihode()" style="background-color: #17a2b8;">Vidi Prihode</button>
+                        </div>
+                    
+                    </div>
+
+                    <div *ngIf="showAddExpenseForm" class="mt-4">
+                        <h4 class="text-secondary mb-3">Novi Trošak</h4>
+                        <div class="form-group">
+                            <label for="iznosTroska" style="color: #333;">Iznos</label>
+                            <input type="number" class="form-control" id="iznosTroska" [(ngModel)]="noviTrosakIznos" style="color: #333; background-color: #f8f9fa;">
+                        </div>
+                        <div class="form-group">
+                            <label for="opisTroska" style="color: #333;">Opis</label>
+                            <input type="text" class="form-control" id="opisTroska" [(ngModel)]="noviTrosakOpis" style="color: #333; background-color: #f8f9fa;">
+                        </div>
+                        <button type="button" class="btn btn-success btn-lg btn-block mt-4" (click)="dodajTrosak()" style="background-color: #28a745;">Sačuvaj Trošak</button>
+                       <div></div>
+                        <button type="button" class="btn btn-secondary btn-lg btn-block mt-4" (click)="nazad()" >Nazad</button>
+                    </div>
+
+                    <div *ngIf="showExpenses" class="mt-4">
+                        <h4 class="text-secondary mb-3">Troškovi za {{ mesec }}/{{ godina }}</h4>
+                        <ul class="list-group">
+                            <li *ngFor="let trosak of troskovi" class="list-group-item">
+                                <div><strong>Datum:</strong> {{ trosak.datum | date }}</div>
+                                <div><strong>Iznos:</strong> {{ trosak.iznos }}</div>
+                                <div><strong>Opis:</strong> {{ trosak.opis }}</div>
+                            </li>
+                        </ul>
+                        <button type="button" class="btn btn-secondary btn-lg btn-block mt-4" (click)="nazad()" >Nazad</button>
+                    </div>
+
+
+                    <div *ngIf="showAddIncomeForm" class="mt-4">
+                        <h4 class="text-secondary mb-3">Novi Prihod</h4>
+                        <div class="form-group">
+                            <label for="iznosPrihoda" style="color: #333;">Iznos</label>
+                            <input type="number" class="form-control" id="iznosPrihoda" [(ngModel)]="noviPrihodIznos" style="color: #333; background-color: #f8f9fa;">
+                        </div>
+                        <div class="form-group">
+                            <label for="opisTroska" style="color: #333;">Opis</label>
+                            <input type="text" class="form-control" id="opisPrihoda" [(ngModel)]="noviPrihodOpis" style="color: #333; background-color: #f8f9fa;">
+                        </div>
+                        <button type="button" class="btn btn-success btn-lg btn-block mt-4" (click)="dodajPrihod()" style="background-color: #28a745;">Sačuvaj Prihod</button>
+                        <div></div>
+                        <button type="button" class="btn btn-secondary btn-lg btn-block mt-4" (click)="nazad()" >Nazad</button>
+                    </div>
+
+
+                    <div *ngIf="showIncome" class="mt-4">
+                        <h4 class="text-secondary mb-3">Prihodi za {{ mesec }}/{{ godina }}</h4>
+                        <ul class="list-group">
+                            <li *ngFor="let p of prihodi" class="list-group-item">
+                                <div><strong>Datum:</strong> {{ p.datum | date }}</div>
+                                <div><strong>Iznos:</strong> {{ p.iznos }}</div>
+                                <div *ngIf="p.napomena"><strong>Opis:</strong> {{ p.napomena }}</div>
+                            </li>
+                        </ul>
+                        <button type="button" class="btn btn-secondary btn-lg btn-block mt-4" (click)="nazad()" >Nazad</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+/* Style for the custom file upload label */
+.custom-file-upload {
+  padding: 10px 20px; /* Space around the text */
+  border-radius: 20px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and color */
+
+  color: #fff; /* Default text color */
+}
+
+
+.custom-file-upload:hover {
+  background-color: #45a049; /* Tamnija zelena boja prilikom prelaska */
+}
+
+
+.naziv-kolone {
+  font-weight: bold;
+  color: #5a5a5a;
+}
+
+
+
+
+
+.card-body {
+  margin-bottom: 40px; /* Dodajte željenu margu ispod forme */
+}
+
+
+ /* Stilizacija dugmeta Dodaj */
+ .btn-dodaj {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+  border-radius: 4px;
+}
+
+.btn-dodaj:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.vise{
+  background-color: lightgreen;
+}
+
+

@@ -1,0 +1,31 @@
+.card-body {
+    margin-bottom: 40px; /* Dodajte željenu margu ispod forme */
+  }
+
+  .btn-secondary {
+    background-color: #6c757d; /* Siva boja */
+    border-color: #6c757d; /* Siva boja */
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268; /* Tamnija siva boja na hover */
+    border-color: #5a6268; /* Tamnija siva boja na hover */
+  }
+
+  .red-duzan {
+    background-color: #ff6666; /* Crvenkasta boja za predmete sa dugom */
+}
+
+.zeleno{
+  background-color: lightgreen;
+}
+
+.kolona{
+  width: 110%;
+}
+
+.naziv-kolone {
+  font-weight: bold;
+  color: #5a5a5a;
+}
+

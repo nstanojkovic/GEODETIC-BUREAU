@@ -1,0 +1,48 @@
+.custom-file-upload {
+
+    color: white; /* Beli tekst */
+    padding: 10px 20px; /* Prostor oko teksta */
+    border-radius: 20px; /* Zaobljeni ivici */
+    cursor: pointer; /* Kursor prilikom prelaska */
+    transition: background-color 0.3s; /* Glatka tranzicija boje pozadine */
+  }
+  
+  .custom-file-upload:hover {
+    background-color: #45a049; /* Tamnija zelena boja prilikom prelaska */
+  }
+
+  .form-label {
+    font-weight: bold;
+    color: #5a5a5a;
+  }
+
+  .naziv-kolona {
+    font-weight: bold;
+    color: #5a5a5a;
+  }
+
+
+
+
+  
+
+  .card-body {
+    margin-bottom: 40px; /* Dodajte željenu margu ispod forme */
+  }
+
+
+   /* Stilizacija dugmeta Dodaj */
+   .btn-dodaj {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+    border-radius: 4px;
+  }
+
+  .btn-dodaj:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+  
+  
+  

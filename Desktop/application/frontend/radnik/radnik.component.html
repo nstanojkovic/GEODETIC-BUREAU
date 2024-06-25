@@ -1,0 +1,40 @@
+
+<app-header></app-header>
+<div class="container mt-5">
+    <h2 class="text-primary"> Radnici</h2>
+
+  <table class="table table-striped table-hover">
+      <thead class="thead-dark">
+          <tr>
+              <th class="naziv-kolone" scope="col">Ime</th>
+              <th class="naziv-kolone"  scope="col">Prezime</th>
+              <th class="naziv-kolone" scope="col">Korisnicko ime</th>
+              <th  class="naziv-kolone"scope="col">Lozinka</th>
+              <th *ngIf="user.admin"></th>
+              <th ></th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let radnik of radnici"  [ngClass]="{'admin': radnik.admin, 'red-otpusten': radnik.fired}">
+              <td>{{ radnik.firstname }}</td>
+              <td>{{ radnik.lastname }}</td>
+              <td>{{ radnik.username }}</td>
+              <td>{{ '*'.repeat(radnik.password.length) }}</td>
+              <td *ngIf="user.admin">
+   
+                <button   type="button" [disabled]="radnik.fired" class="btn btn-danger" (click)="optpustiRadnika(radnik.userID)">Otpusti</button>
+               
+            </td>
+              <td class="text-primary" >
+                <div style="font-size: larger;" role="group" *ngIf="radnik.admin">
+                   Admin 
+                </div>
+                <div style="font-size: larger;" role="group" *ngIf="radnik.fired">
+                    Ne radi 
+                 </div>
+
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>

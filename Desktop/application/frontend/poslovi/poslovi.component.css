@@ -1,0 +1,9 @@
+.card-body {
+    margin-bottom: 40px; /* Dodajte željenu margu ispod forme */
+  }
+
+  .naziv-kolone {
+    font-weight: bold;
+    color: #5a5a5a;
+  }
+  

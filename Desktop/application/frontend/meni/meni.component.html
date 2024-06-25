@@ -1,0 +1,135 @@
+<app-header></app-header>
+<div class="container">
+    <h1 class="welcome-message">Radnik: {{ user?.firstname }} {{ user?.lastname }}</h1>
+    <div>
+    <button class="btn btn-primary my-3 btn-lg" (click)="izmeniProveru()">Izmeni nalog</button>
+    <a *ngIf="user.admin">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button class="btn btn-primary my-3 btn-lg" (click)="showZahtevi()">Vidi Zahteve</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button class="btn btn-primary my-3 btn-lg" (click)="showKomentari()">Vidi Komentare</button>
+</a>
+
+</div>
+    <div *ngIf="zahtevi.length > 0 && proveraZahtevi" >
+        <table class="table table-striped" >
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Korisnicko ime</th>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Datum</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let zahtev of zahtevi; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ zahtev.username }}</td>
+                    <td>{{ zahtev.firstname }}</td>
+                    <td>{{ zahtev.lastname }}</td>
+                    <td>{{ zahtev.datum | date: 'dd.MM.yyyy' }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-primary " (click)="prihvatiZahtev(zahtev.id)">Prihvati registraciju</button>
+                        </div>
+                    
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-danger " (click)="izbrisiZahtev(zahtev.id)">Odbij</button>
+                        </div>
+                    
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div *ngIf="komentari.length > 0 && proveraKomentari" >
+        <table class="table table-striped" >
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Poruka</th>
+                    <th>Ocena</th>
+                    <th>Datum</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let komentar of komentari; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ komentar.ime }}</td>
+                    <td>{{ komentar.prezime }}</td>
+                    <td>{{ komentar.poruka }}</td>
+                    <td>{{ komentar.ocena }}</td>
+                    <td>{{ komentar.datum | date: 'dd.MM.yyyy' }}</td>
+                    <td></td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-danger " (click)="izbrisiKomentar(komentar.id)">Izbrisi komentar</button>
+                        </div>
+                    
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container" *ngIf="izmeniProvera">
+        <form>
+            <fieldset class="mb-3 row">
+                <legend class="text-lg">Nalog</legend>
+               
+            </fieldset>
+            <div class="mb-3 row">
+                <mat-form-field>
+                    <mat-label for="inputName" class="col-4 col-form-label">Korisnicko ime</mat-label>
+                    <input type="text" matInput class="form-control" name="username" id="username" [(ngModel)]="user.username" required>                                
+                </mat-form-field>            
+            </div>
+            <div class="mb-3 row">
+                <mat-form-field>
+                    <mat-label for="password" class="col-4 col-form-label">Lozinka</mat-label>
+                    <input type="text" matInput class="form-control" name="password" id="password" [(ngModel)]="user.password" required>
+                </mat-form-field>            
+            </div>
+            <div class="mb-3 row">
+                <mat-form-field>
+                    <mat-label for="firstName" class="col-4 col-form-label">Ime</mat-label>
+                    <input type="text" matInput class="form-control" name="firstName" id="firstName" [(ngModel)]="user.firstname" required>
+                </mat-form-field>            
+            </div>
+            <div class="mb-3 row">
+                <mat-form-field>
+                    <mat-label for="lastName" class="col-4 col-form-label">Prezime</mat-label>
+                    <input type="text" matInput class="form-control" name="lastName" id="lastName" [(ngModel)]="user.lastname" required>
+                </mat-form-field>            
+            </div>
+           
+            <div class="mb-3 row">
+                <div class="offset-sm-5 col-sm-8">
+                    <button type="submit" class="btn btn-success btn-lg" (click)="izmeniNalog()">Izmeni</button>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="alert alert-primary" role="alert" *ngIf="message">
+                    <strong>{{message}}</strong>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="offset-sm-2 col-sm-10">
+                    <button  class="btn btn-secondary btn-lg" (click)="povratakNazad()">Nazad</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
